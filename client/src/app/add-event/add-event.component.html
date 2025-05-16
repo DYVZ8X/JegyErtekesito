@@ -1,0 +1,31 @@
+<div class="add-event-container">
+  <form class="add-event-card" (ngSubmit)="submit()">
+    <h2>Új esemény hozzáadása</h2>
+
+    <label for="title">Cím</label>
+    <input type="text" id="title" [(ngModel)]="event.title" name="title" required />
+
+    <label for="date">Dátum</label>
+    <input type="date" id="date" [(ngModel)]="event.date" name="date" required />
+
+    <label for="location">Helyszín</label>
+    <input type="text" id="location" [(ngModel)]="event.location" name="location" required />
+
+    <label for="vip">VIP jegyár</label>
+    <input type="number" id="vip" [(ngModel)]="event.tickets.vip" name="vip" />
+
+    <label for="general">Általános jegyár</label>
+    <input type="number" id="general" [(ngModel)]="event.tickets.general" name="general" />
+
+    <label for="premium">Kiemelt jegyár</label>
+    <input type="number" id="premium" [(ngModel)]="event.tickets.premium" name="premium" />
+
+    <label for="seats">Elérhető helyek</label>
+    <input type="number" id="seats" [(ngModel)]="event.seats" name="seats" />
+
+    <label for="image">Kép URL (opcionális)</label>
+    <input type="text" id="image" [(ngModel)]="event.image" name="image" />
+
+    <button type="submit">Esemény létrehozása</button>
+  </form>
+</div>

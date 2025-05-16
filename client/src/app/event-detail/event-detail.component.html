@@ -1,0 +1,9 @@
+<div *ngIf="event" class="event-detail-card">
+  <h2>{{ event.title }}</h2>
+  <p>Dátum: {{ event.date | date }}</p>
+  <p>Helyszín: {{ event.location }}</p>
+  <p>VIP jegyár: {{ event.tickets.vip }} Ft</p>
+  <p>Általános jegyár: {{ event.tickets.general }} Ft</p>
+  <p>Kiemelt jegyár: {{ event.tickets.premium }} Ft</p>
+  <p>Elérhető helyek: {{ event.seats }}</p>
+</div>
