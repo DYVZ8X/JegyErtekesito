@@ -10,7 +10,6 @@ export class MainClass {
 
     // callback
     // Promise
-    // Observable
 
     monitoringCallback(callback: (error: string | null, result?: string) => void): void {
         setTimeout(() => {
