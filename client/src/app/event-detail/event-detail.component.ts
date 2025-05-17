@@ -1,70 +1,99 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { EventService } from '../shared/services/event.service';
-import { CartService, CartItem } from '../shared/services/cart.service';
 import { FormsModule } from '@angular/forms';
+import { EventService } from '../shared/services/event.service';
+import { CartService } from '../shared/services/cart.service';
+import { AuthService } from '../shared/services/auth.service';
 
 @Component({
   selector: 'app-event-detail',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './event-detail.component.html',
   styleUrls: ['./event-detail.component.scss']
 })
 export class EventDetailComponent {
   private route = inject(ActivatedRoute);
+  private router= inject(Router);
   private eventService = inject(EventService);
   private cartService = inject(CartService);
+  private authService = inject(AuthService);
 
   event: any;
+  editedEvent: any = {};
   availableSeats: string[] = [];
-  selectedSeat: string = '';
+  selectedSeat = '';
   ticketCategory: 'vip' | 'general' | 'premium' = 'general';
 
-  ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.eventService.getEventById(id).subscribe({
-        next: (event) => {
-          this.event = event;
-          if (event._id && typeof event.seats === 'number') {
-            this.loadAvailableSeats(event._id, event.seats);
-          }
-        },
-        error: (err) => {
-          console.error('Hiba történt:', err);
-        }
-      });
+  isAdmin = false;
+  editMode = false;
+
+ngOnInit() {
+  const id = this.route.snapshot.paramMap.get('id');
+  if (!id) return;
+
+  this.authService.checkPermission(permission => {
+    this.isAdmin = permission === 'admin';
+  });
+
+  this.eventService.getEventById(id).subscribe(event => {
+    this.event = event;
+    this.editedEvent = { ...event };
+    if (event._id && typeof event.seats === 'number') {
+      this.loadAvailableSeats(event._id, event.seats);
     }
-  }
+  });
+}
+
 
   loadAvailableSeats(eventId: string, totalSeats: number) {
-    this.eventService.getBookedSeats(eventId).subscribe({
-      next: (bookedSeats) => {
-        const allSeats = Array.from({ length: totalSeats }, (_, i) => (i + 1).toString());
-        this.availableSeats = allSeats.filter(seat => !bookedSeats.includes(seat));
-      },
-      error: (err) => console.error('Nem sikerült betölteni a foglalt helyeket:', err)
+    this.eventService.getBookedSeats(eventId).subscribe(bookedSeats => {
+      const allSeats = Array.from({ length: totalSeats }, (_, i) => (i + 1).toString());
+      this.availableSeats = allSeats.filter(seat => !bookedSeats.includes(seat));
     });
   }
 
   addToCart() {
-    console.log('Kategória:', this.ticketCategory); 
     if (!this.selectedSeat || !this.event) return;
 
     const price = this.event.tickets[this.ticketCategory];
 
-    const item: CartItem = {
+    const item = {
       event: this.event._id,
       ticketCategory: this.ticketCategory,
       price,
       seatNumber: this.selectedSeat
     };
 
-    this.cartService.addToCart(item).subscribe({
-      next: () => alert('Kosárhoz adva!'),
-      error: () => alert('Hiba történt a kosárba rakás során.')
+    this.cartService.addToCart(item).subscribe(() => {
+      alert('Kosárhoz adva!');
     });
   }
+
+  updateEvent() {
+    if (!this.event || !this.event._id) return;
+
+    this.eventService.updateEvent(this.event._id, this.editedEvent).subscribe(updated => {
+      this.event = updated;
+      this.editMode = false;
+      alert('Esemény frissítve!');
+    });
+  }
+
+  deleteEvent() {
+  if (!confirm('Biztosan törölni szeretnéd az eseményt? Ez a kosárban lévő tételeket is törli.')) return;
+
+  this.eventService.deleteEvent(this.event._id).subscribe({
+    next: () => {
+      alert('Esemény sikeresen törölve.');
+      this.router.navigate(['/events']);
+    },
+    error: err => {
+      console.error(err);
+      alert('Hiba történt a törlés során.');
+    }
+  });
+}
+
 }

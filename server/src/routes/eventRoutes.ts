@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { Event } from '../model/Event';
 import { Order } from '../model/Orders';
-
+import { Cart } from '../model/Cart';
 const router = Router();
 
 // Create event
@@ -66,23 +66,34 @@ router.get('/events/:id/booked-seats', async (req: Request, res: Response) => {
 });
 
 // Update event
-router.put('/events/:id', async (req: Request, res: Response) => {
+router.put('/events/:id', async (req, res) => {
+  console.log("lefut");
+  if (!req.isAuthenticated() || (req.user as any).permission !== 'admin') {
+    return res.status(403).send('You dont have permission to do this');
+  }
+
   try {
     const updatedEvent = await Event.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!updatedEvent) return res.status(404).send('Event not found.');
-    res.status(200).json(updatedEvent);
-  } catch (error) {
-    res.status(500).send('Internal server error.');
+    if (!updatedEvent) return res.status(404).send('Cant find event');
+    res.json(updatedEvent);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error in updating the event');
   }
 });
 
 // Delete event
 router.delete('/events/:id', async (req: Request, res: Response) => {
+  if (!req.isAuthenticated() || (req.user as any).permission !== 'admin') {
+    return res.status(403).send('You don\'t have permission to do this');
+  }
   try {
     const deletedEvent = await Event.findByIdAndDelete(req.params.id);
     if (!deletedEvent) return res.status(404).send('Event not found.');
-    res.status(200).send('Event deleted successfully.');
+    await Cart.updateMany({}, { $pull: { items: { event: req.params.id } } });
+    res.status(200).json({ message: 'Event and related cart items deleted.' });
   } catch (error) {
+    console.error(error);
     res.status(500).send('Internal server error.');
   }
 });

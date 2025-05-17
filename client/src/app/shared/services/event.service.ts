@@ -57,15 +57,12 @@ getEventById(id: string): Observable<Event> {
     );
   }
 
-  deleteEvent(id: string): Observable<any> {
-    return this.http.delete('${this.apiUrl}/${id}', {
-      withCredentials: true
-    }).pipe(
-      tap(() => this.eventsUpdated.next(true))
-    );
-  }
   getBookedSeats(eventId: string): Observable<string[]> {
   return this.http.get<string[]>(`${this.apiUrl}/${eventId}/booked-seats`, { withCredentials: true });
+}
+
+deleteEvent(id: string) {
+  return this.http.delete(`http://localhost:5000/api/events/${id}`, { withCredentials: true });
 }
 
 }

@@ -26,4 +26,36 @@
   <div *ngIf="availableSeats.length === 0">
     <p>Nincs több elérhető hely erre az eseményre.</p>
   </div>
+
+  <div *ngIf="isAdmin" class="admin-editor">
+    <h3>Esemény szerkesztése (Admin)</h3>
+    <label>Cím:
+      <input [(ngModel)]="editedEvent.title" type="text">
+    </label>
+    <label>Dátum:
+      <input [(ngModel)]="editedEvent.date" type="date">
+    </label>
+    <label>Helyszín:
+      <input [(ngModel)]="editedEvent.location" type="text">
+    </label>
+    <label>VIP jegyár:
+      <input [(ngModel)]="editedEvent.tickets.vip" type="number">
+    </label>
+    <label>Általános jegyár:
+      <input [(ngModel)]="editedEvent.tickets.general" type="number">
+    </label>
+    <label>Kiemelt jegyár:
+      <input [(ngModel)]="editedEvent.tickets.premium" type="number">
+    </label>
+    <label>Összes hely:
+      <input [(ngModel)]="editedEvent.seats" type="number">
+    </label>
+
+    <button (click)="updateEvent()">Mentés</button>
+  </div>
+  <button class="deletButton" *ngIf="isAdmin" (click)="deleteEvent()">
+  Esemény törlése
+  </button>
 </div>
+
+

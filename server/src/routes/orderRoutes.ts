@@ -2,7 +2,7 @@ import { Router, Request, Response } from 'express';
 import { Order } from '../model/Orders';
 
 const router = Router();
-// Új rendelés létrehozása
+
 router.post('/orders', async (req: Request, res: Response) => {
   if (!req.isAuthenticated() || !req.user) {
     return res.status(401).send('Not logged in');
@@ -60,7 +60,7 @@ router.post('/orders/checkout', async (req: Request, res: Response) => {
   }
 });
 
-// Saját rendelések
+
 router.get('/orders/mine', async (req: Request, res: Response) => {
   if (!req.isAuthenticated() || !req.user) {
     return res.status(401).send('Not logged in');
@@ -75,7 +75,7 @@ router.get('/orders/mine', async (req: Request, res: Response) => {
   }
 });
 
-// Összes rendelés adminnak
+
 router.get('/orders', async (req: Request, res: Response) => {
   if (!req.isAuthenticated() || !(req.user as any).permission || (req.user as any).permission !== 'admin') {
     return res.status(403).send('You dont have permission to see this');
@@ -90,7 +90,7 @@ router.get('/orders', async (req: Request, res: Response) => {
   }
 });
 
-// Rendelés törlése
+
 router.delete('/orders/:id', async (req: Request, res: Response) => {
   if (!req.isAuthenticated() || !req.user) {
     return res.status(401).send('Not logged in');
