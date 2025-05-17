@@ -11,6 +11,8 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import eventRoutes from './routes/eventRoutes';
 import orderRoutes from './routes/orderRoutes';
+import cartRoutes from './routes/cartRoutes';
+
 
 const app = express();
 const port = 5000;
@@ -61,6 +63,7 @@ configurePassport(passport);
 app.use('/app', configureRoutes(passport, express.Router()));
 app.use('/api', eventRoutes);
 app.use('/api', orderRoutes);
+app.use('/api', cartRoutes);
 app.listen(port, () => {
     console.log('Server is listening on port ' + port.toString());
 });

@@ -1,10 +1,14 @@
 .event-list-header {
-  position: absolute;
-  margin-top: -40px; // hogy a navbar alatt legyen (állítsd be, ha a navbar fix)
-  margin-left: 40%;
+  position: static;
+  margin-top: 40px; 
+  margin-left: 40px;
 }
 
 .add-event-button {
+  position: fixed;
+  margin-top: 750px;
+  margin-left: 0px;
+  padding-left: 0px;
   padding: 0.6rem 1.2rem;
   background-color: #3498db;
   color: white;

@@ -28,6 +28,40 @@ router.post('/orders', async (req: Request, res: Response) => {
   }
 });
 
+// Kosár véglegesítése
+router.post('/orders/checkout', async (req: Request, res: Response) => {
+  if (!req.isAuthenticated() || !req.user) {
+    return res.status(401).send('Not logged in');
+  }
+
+  try {
+    const userId = (req.user as any)._id;
+
+    // Kosár lekérdezése
+    const cart = await import('../model/Cart').then(module => module.Cart.findOne({ user: userId }));
+    if (!cart || cart.items.length === 0) {
+      return res.status(400).json({ message: 'A kosár üres.' });
+    }
+
+    // Rendelések tömeges létrehozása
+    const ordersData = cart.items.map(item => ({
+      user: userId,
+      event: item.event,
+      ticketCategory: item.ticketCategory,
+      price: item.price,
+      seatNumber: item.seatNumber,
+    }));
+
+    await Order.insertMany(ordersData);         // 1. rendelések mentése
+    await cart.deleteOne();                     // 2. kosár törlése
+
+    res.status(201).json({ message: 'Rendelés sikeresen létrehozva.', count: ordersData.length });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Hiba történt a vásárlás véglegesítése során.');
+  }
+});
+
 // Saját rendelések
 router.get('/orders/mine', async (req: Request, res: Response) => {
   if (!req.isAuthenticated() || !req.user) {

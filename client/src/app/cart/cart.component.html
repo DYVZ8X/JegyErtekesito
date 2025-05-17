@@ -1,0 +1,22 @@
+<h2>Kosár</h2>
+
+<div *ngIf="cartItems.length === 0">
+  A kosár üres.
+</div>
+
+<ul>
+  <li *ngFor="let item of cartItems">
+    <div>
+      <strong>{{ item.event?.title || 'Ismeretlen esemény' }}</strong> – 
+      {{ item.ticketCategory }} – 
+      {{ item.seatNumber }} – 
+      {{ item.price }} Ft
+      <button (click)="removeItem(item._id!)">Eltávolítás</button>
+    </div>
+  </li>
+</ul>
+
+<div *ngIf="cartItems.length > 0">
+  <p><strong>Összesen:</strong> {{ totalPrice }} Ft</p>
+  <button (click)="checkout()">Vásárlás véglegesítése</button>
+</div>

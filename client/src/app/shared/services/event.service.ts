@@ -64,4 +64,8 @@ getEventById(id: string): Observable<Event> {
       tap(() => this.eventsUpdated.next(true))
     );
   }
+  getBookedSeats(eventId: string): Observable<string[]> {
+  return this.http.get<string[]>(`${this.apiUrl}/${eventId}/booked-seats`, { withCredentials: true });
+}
+
 }

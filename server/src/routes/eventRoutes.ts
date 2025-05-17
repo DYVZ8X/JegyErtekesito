@@ -1,6 +1,6 @@
-// routes/eventRoutes.ts
 import { Router, Request, Response } from 'express';
 import { Event } from '../model/Event';
+import { Order } from '../model/Orders';
 
 const router = Router();
 
@@ -47,6 +47,21 @@ router.get('/events/:id', async (req: Request, res: Response) => {
     res.status(200).json(event);
   } catch (error) {
     res.status(500).send('Internal server error.');
+  }
+});
+
+router.get('/events/:id/booked-seats', async (req: Request, res: Response) => {
+  const eventId = req.params.id;
+
+  try {
+    const orders = await Order.find({ event: eventId });
+
+    const bookedSeats = orders.map(order => order.seatNumber);
+
+    res.status(200).json(bookedSeats);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error retrieving booked seats');
   }
 });
 

@@ -5,5 +5,25 @@
   <p>VIP jegyár: {{ event.tickets.vip }} Ft</p>
   <p>Általános jegyár: {{ event.tickets.general }} Ft</p>
   <p>Kiemelt jegyár: {{ event.tickets.premium }} Ft</p>
-  <p>Elérhető helyek: {{ event.seats }}</p>
+  <p>Összes hely: {{ event.seats }}</p>
+
+  <div *ngIf="availableSeats.length > 0">
+    <label for="ticketCategory">Jegytípus:</label>
+    <select [(ngModel)]="ticketCategory" id="ticketCategory">
+      <option value="general">Általános</option>
+      <option value="vip">VIP</option>
+      <option value="premium">Kiemelt</option>
+    </select>
+
+    <label for="seatNumber">Válassz helyet:</label>
+    <select [(ngModel)]="selectedSeat" id="seatNumber">
+      <option *ngFor="let seat of availableSeats" [value]="seat">{{ seat }}</option>
+    </select>
+
+    <button (click)="addToCart()">Kosárba rak</button>
+  </div>
+
+  <div *ngIf="availableSeats.length === 0">
+    <p>Nincs több elérhető hely erre az eseményre.</p>
+  </div>
 </div>

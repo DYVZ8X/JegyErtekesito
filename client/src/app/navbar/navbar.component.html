@@ -3,10 +3,12 @@
     <li><a [routerLink]="['events']">Események</a></li>
     <ng-container *ngIf="isLoggedIn && isAdmin">
         <li><a [routerLink]="['/user-management']">ProfilA</a></li>
+        <li><a [routerLink]="['/cart']">Profil</a></li>
         <li><a (click)="logout()">Kijelentkezés</a></li>
     </ng-container>
     <ng-container *ngIf="isLoggedIn && !isAdmin">
       <li><a [routerLink]="['/user-management']">Profil</a></li>
+      <li><a [routerLink]="['/cart']">Profil</a></li>
       <li><a (click)="logout()">Kijelentkezés</a></li>
     </ng-container>
     <ng-container *ngIf="!isLoggedIn">
