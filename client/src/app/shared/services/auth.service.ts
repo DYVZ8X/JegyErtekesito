@@ -10,7 +10,6 @@ export class AuthService {
   private loggedIn = new BehaviorSubject<boolean>(false);
 
   constructor(private http: HttpClient) {
-    // automatikus ellenőrzés betöltéskor
     this.checkAuth().subscribe({
       next: (isAuth) => this.loggedIn.next(isAuth),
       error: () => this.loggedIn.next(false)

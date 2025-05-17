@@ -26,15 +26,6 @@ export const configureRoutes = (passport: PassportStatic, router: Router): Route
 
     router.get('/promise', async (req: Request, res: Response) => {
         let myClass = new MainClass();
-        /* myClass.monitoringPromise().then((data: string) => {
-            res.write(data);
-            res.status(200).end();
-        }).catch((error: string) => {
-            res.write(error);
-            res.status(400).end();
-        }); */
-
-
         // async-await
         try {
             const data = await myClass.monitoringPromise();
@@ -51,15 +42,6 @@ export const configureRoutes = (passport: PassportStatic, router: Router): Route
         let myClass = new MainClass();
         res.setHeader('Content-Type', 'text/html; charset=UTF-8');
         res.setHeader('Transfer-Encoding', 'chunked');
-
-        // deprecated variant
-        /* myClass.monitoringObservable().subscribe((data) => {
-            console.log(data);
-        }, (error) => {
-            console.log(error);
-        }, () => {
-            console.log('complete');
-        }); */
 
         myClass.monitoringObservable().subscribe({
             next(data: string) {
@@ -95,7 +77,7 @@ export const configureRoutes = (passport: PassportStatic, router: Router): Route
     });
 
     router.post('/register', (req: Request, res: Response) => {
-        console.log('Received body:', req.body); // logoljuk a body-t
+        console.log('Received body:', req.body);
     
     const { email, password, name, address, nickname, permission } = req.body;
 
@@ -103,11 +85,11 @@ export const configureRoutes = (passport: PassportStatic, router: Router): Route
 
         user.save()
             .then(data => {
-                console.log('User saved:', data); // sikeres mentés
+                console.log('User saved:', data);
                 res.status(200).send(data);
             })
             .catch(error => {
-                console.error('Error during save:', error); // itt látod a konkrét hibát!
+                console.error('Error during save:', error);
                 res.status(500).send(error);
             });
     });
@@ -156,7 +138,6 @@ router.get('/checkAuth', (req: Request, res: Response) => {
 
 router.get('/checkPermission', (req: Request, res: Response) => {
     if (req.isAuthenticated() && req.user) {
-        // req.user lehet csak user ID, szóval lekérjük az adatbázisból
         const userId = req.user;
         User.findById(userId).then(user => {
             if (!user) {

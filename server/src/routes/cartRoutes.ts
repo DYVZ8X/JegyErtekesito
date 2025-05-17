@@ -3,7 +3,7 @@ import { Cart } from '../model/Cart';
 
 const router = Router();
 
-// Kosár lekérése
+
 router.get('/cart', async (req: Request, res: Response) => {
   if (!req.isAuthenticated() || !req.user) return res.status(401).send('Not logged in');
   try {
@@ -15,7 +15,6 @@ router.get('/cart', async (req: Request, res: Response) => {
   }
 });
 
-// Elem hozzáadása a kosárhoz
 router.post('/cart', async (req: Request, res: Response) => {
   if (!req.isAuthenticated() || !req.user) return res.status(401).send('Not logged in');
 
@@ -49,11 +48,11 @@ router.delete('/cart/:itemId', async (req: Request, res: Response) => {
     const cart = await Cart.findOne({ user: userId });
     if (!cart) return res.status(404).send('Cart not found');
 
-    // 🔍 Keresd meg az elemet ID alapján
+
     const itemIndex = cart.items.findIndex(item => (item as any)._id?.toString() === itemId);
     if (itemIndex === -1) return res.status(404).send('Item not found in cart');
 
-    // 🗑️ Töröld ki az elemet
+
     cart.items.splice(itemIndex, 1);
     await cart.save();
 
@@ -65,7 +64,6 @@ router.delete('/cart/:itemId', async (req: Request, res: Response) => {
 });
 
 
-// Kosár kiürítése (opcionális)
 router.delete('/cart', async (req: Request, res: Response) => {
   if (!req.isAuthenticated() || !req.user) return res.status(401).send('Not logged in');
 

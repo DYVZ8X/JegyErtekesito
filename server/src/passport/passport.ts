@@ -5,12 +5,12 @@ import { User } from '../model/User';
 export const configurePassport = (passport: PassportStatic): PassportStatic => {
 
 passport.serializeUser((user: any, done) => {
-  done(null, user._id); // Csak az ID-t tároljuk
+  done(null, user._id);
 });
 
 passport.deserializeUser((id: string, done) => {
   User.findById(id).then(user => {
-    done(null, user); // A teljes user objektum lesz elérhető
+    done(null, user); 
   }).catch(err => {
     done(err, null);
   });

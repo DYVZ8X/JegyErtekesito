@@ -10,7 +10,7 @@ export interface IEvent extends Document {
     premium: number;
   };
   seats: number;
-  image?: string; // opcionális kép URL vagy ID
+  image?: string;
 }
 
 const EventSchema: Schema<IEvent>=new mongoose.Schema({
@@ -23,7 +23,7 @@ const EventSchema: Schema<IEvent>=new mongoose.Schema({
     premium: { type: Number, required: true }
   },
   seats: { type: Number, required: true },
-  image: { type: String } // pl. kép URL vagy GridFS ID
+  image: { type: String }
 });
 
 export const Event = mongoose.model<IEvent>('Event', EventSchema);

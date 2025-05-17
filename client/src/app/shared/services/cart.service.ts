@@ -26,7 +26,7 @@ export class CartService {
   }
 
 finalizeCart(): Observable<any> {
-  return this.http.post('http://localhost:5000/api/orders/checkout', {}); // Ne felejtsd az új végpontot
+  return this.http.post('http://localhost:5000/api/orders/checkout', {});
 }
 
 getCart(): Observable<CartItem[]> {

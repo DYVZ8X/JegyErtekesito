@@ -33,7 +33,7 @@ export class EventListComponent implements OnInit {
     this.router.navigate(['/events', eventId]);
   }
   get dynamicHeaderMargin(): string {
-    const extraMargin = 700+Math.ceil(Math.ceil(this.events.length / 2) * 130);
+    const extraMargin = 700+Math.ceil(Math.ceil(this.events.length / 2) * 130*Math.pow((1+((this.events.length/1.8)/this.events.length)),1.1));
     return `${extraMargin}px`;
   }
   navigateToAddEvent() {

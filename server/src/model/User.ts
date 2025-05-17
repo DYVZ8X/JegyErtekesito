@@ -53,21 +53,3 @@ UserSchema.methods.comparePassword = function(candidatePassword: string, callbac
 }
 
 export const User: Model<IUser> = mongoose.model<IUser>('User', UserSchema);
-
-/* THIS - JS - runtime binding
-// explanation for this:
-const test = {
-    prop: 1,
-    func: () => {
-      return test.prop;
-    },
-};
-
-const test = {
-    prop: 1,
-    func: function() {
-        return this.prop;
-    },
-};
-
-// Expected output: 1 */
