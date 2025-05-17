@@ -1,1 +1,18 @@
-<p>order-hystory works!</p>
+<h2>Rendeléseim</h2>
+
+<div class="order-list">
+  <div *ngIf="orders.length > 0; else noOrders">
+    <div *ngFor="let order of orders" class="order-card">
+      <p><strong>Esemény:</strong> {{ order.event?.title }}</p>
+      <p><strong>Dátum:</strong> {{ order.event?.date | date }}</p>
+      <p><strong>Jegytípus:</strong> {{ order.ticketCategory }}</p>
+      <p><strong>Ár:</strong> {{ order.price }} Ft</p>
+      <p><strong>Hely:</strong> {{ order.seatNumber }}</p>
+      <hr />
+    </div>
+  </div>
+
+  <ng-template #noOrders>
+    <p>Még nincs vásárlási előzményed.</p>
+  </ng-template>
+</div>

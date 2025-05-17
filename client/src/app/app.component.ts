@@ -7,7 +7,7 @@ import { EventDetailComponent } from './event-detail/event-detail.component';
 import { EventListComponent } from './event-list/event-list.component';
 import { AddEventComponent } from './add-event/add-event.component';
 import { CartComponent } from './cart/cart.component';
-
+import { OrderHystoryComponent } from './order-hystory/order-hystory.component';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +19,7 @@ import { CartComponent } from './cart/cart.component';
     EventListComponent,
     AddEventComponent,
     NavbarComponent,
+    OrderHystoryComponent,
     CartComponent
   ],
   templateUrl: './app.component.html',

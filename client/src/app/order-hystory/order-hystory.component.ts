@@ -1,12 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-order-hystory',
+  selector: 'app-order-history',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './order-hystory.component.html',
-  styleUrl: './order-hystory.component.scss'
+  styleUrls: ['./order-hystory.component.scss']
 })
-export class OrderHystoryComponent {
+export class OrderHystoryComponent implements OnInit {
+  private http = inject(HttpClient);
+  orders: any[] = [];
 
+  ngOnInit() {
+    this.http.get<any[]>('http://localhost:5000/api/orders/mine', {
+      withCredentials: true
+    }).subscribe({
+      next: data => this.orders = data,
+      error: err => console.error('Hiba a rendelések lekérdezésekor:', err)
+    });
+  }
 }
