@@ -24,9 +24,15 @@ export class EventListComponent implements OnInit {
       this.events = res;
     });
 
-    this.authService.checkPermission((permission) => {
-      this.isAdmin = permission === 'admin';
-    });
+  this.authService.isLoggedIn$.subscribe(auth => {
+    console.log('Kapott jogosultság:', auth);
+    if (auth) {
+      this.authService.checkPermission((permission: string | null) => {
+        this.isAdmin = (permission === 'admin');
+        console.log(this.isAdmin)
+      });
+    }
+  });
   }
 
   viewDetails(eventId: string) {
