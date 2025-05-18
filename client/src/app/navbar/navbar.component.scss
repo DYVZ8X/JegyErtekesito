@@ -1,7 +1,9 @@
 nav {
   position: fixed;
   top: 0px;
-  background-color: #4CAF50;
+  margin-left: 0px;
+  padding-left: 0px;
+  background-color: #2C2E39;
   padding: 10px 20px;
   width: 100%;
 }
@@ -29,5 +31,5 @@ nav a {
 }
 
 nav a:hover {
-  background-color: #388E3C;
+  background-color: #D8125B;
 }

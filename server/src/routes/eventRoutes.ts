@@ -98,4 +98,20 @@ router.delete('/events/:id', async (req: Request, res: Response) => {
   }
 });
 
+// Get orders for a specific event
+router.get('/events/:id/orders', async (req, res) => {
+  if (!req.isAuthenticated() || (req.user as any).permission !== 'admin') {
+    return res.status(403).send('You don\'t have permission to do this');
+  }
+
+  try {
+    const orders = await Order.find({ event: req.params.id }).populate('user', 'email');
+    res.status(200).json(orders);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error retrieving orders for event.');
+  }
+});
+
+
 export default router;

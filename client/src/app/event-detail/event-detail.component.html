@@ -7,7 +7,7 @@
   <p>Kiemelt jegyár: {{ event.tickets.premium }} Ft</p>
   <p>Összes hely: {{ event.seats }}</p>
 
-  <div *ngIf="availableSeats.length > 0">
+  <div *ngIf="filteredSeats.length> 0 && isLoggedIn && !isAdmin">
     <label for="ticketCategory">Jegytípus:</label>
     <select [(ngModel)]="ticketCategory" id="ticketCategory">
       <option value="general">Általános</option>
@@ -15,17 +15,18 @@
       <option value="premium">Kiemelt</option>
     </select>
 
-    <label for="seatNumber">Válassz helyet:</label>
-    <select [(ngModel)]="selectedSeat" id="seatNumber">
-      <option *ngFor="let seat of availableSeats" [value]="seat">{{ seat }}</option>
-    </select>
+  <label for="seatNumber">Válassz helyet:</label>
+  <select [(ngModel)]="selectedSeat" id="seatNumber">
+    <option *ngFor="let seat of filteredSeats" [value]="seat">{{ seat }}</option>
+  </select>
+
 
     <button (click)="addToCart()">Kosárba rak</button>
   </div>
-
-  <div *ngIf="availableSeats.length === 0">
-    <p>Nincs több elérhető hely erre az eseményre.</p>
+  <div *ngIf="filteredSeats.length === 0 && isLoggedIn">
+    <p>Nincs több elérhető hely ebben a kategóriában.</p>
   </div>
+
 
   <div *ngIf="isAdmin" class="admin-editor">
     <h3>Esemény szerkesztése (Admin)</h3>

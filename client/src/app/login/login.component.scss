@@ -10,7 +10,7 @@
     width: 80%;
     max-width: 400px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 12px;
     padding: 20px;
     gap: 10px;
 }
@@ -31,21 +31,21 @@
 .login-form button {
     cursor: pointer;
     border: none;
-    border-radius: 5px;
-    background-color: cornflowerblue;
+    border-radius: 12px;
+    background-color: #D8125B;
     width: 100%;
     color: white;
     padding: 10px;
 }
 
 .login-form button:hover {
-    background-color: rgb(50, 74, 120);
+    background-color: #701537;
 }
 
 .login-form button[type="button"] {
-    background-color: rgb(101, 231, 101);
+    background-color: #D8125B;
 }
 
 .login-form button[type="button"]:hover {
-    background-color: rgb(57, 129, 57);
+    background-color: #701537;
 }

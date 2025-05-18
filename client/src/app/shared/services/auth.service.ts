@@ -54,6 +54,9 @@ export class AuthService {
       tap(() => this.loggedIn.next(false))
     );
   }
+  getProfile(): Observable<any> {
+    return this.http.get('http://localhost:5000/app/profile', { withCredentials: true });
+  }
 
   checkAuth() {
     return this.http.get<boolean>('http://localhost:5000/app/checkAuth', { withCredentials: true });

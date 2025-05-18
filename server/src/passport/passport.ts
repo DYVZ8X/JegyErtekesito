@@ -16,24 +16,21 @@ passport.deserializeUser((id: string, done) => {
   });
 });
 
-    passport.use('local', new Strategy((username, password, done) => {
-        const query = User.findOne({ email: username });
-        query.then(user => {
-            if (user) {
-                user.comparePassword(password, (error, _) => {
-                    if (error) {
-                        done('Incorrect username or password.');
-                    } else {
-                        done(null, user._id);
-                    }
-                });
-            } else {
-                done(null, undefined);
-            }
-        }).catch(error => {
-            done(error);
-        })
-    }));
+passport.use('local', new Strategy({ usernameField: 'username' }, (username, password, done) => {
+    User.findOne({ email: username }).then(user => {
+        if (!user) {
+            return done(null, false, { message: 'Nincs ilyen felhasználó' });
+        }
+
+        user.comparePassword(password, (error, isMatch) => {
+            if (error) return done(error);
+            if (!isMatch) return done(null, false, { message: 'Hibás jelszó' });
+
+            return done(null, user);
+        });
+    }).catch(error => done(error));
+}));
+
 
     return passport;
 }

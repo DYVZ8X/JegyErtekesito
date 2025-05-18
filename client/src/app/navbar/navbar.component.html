@@ -2,13 +2,12 @@
   <ul>
     <li><a [routerLink]="['events']">Események</a></li>
     <ng-container *ngIf="isLoggedIn && isAdmin">
-        <li><a [routerLink]="['/user-management']">ProfilA</a></li>
-        <li><a [routerLink]="['/cart']">Kosár</a></li>
-        <li><a [routerLink]="['/order-hystory']">Előzmények</a></li>
+        <li><a [routerLink]="['/order-list']">Rendelések</a></li>
+        <li><a [routerLink]="['/profile']">Profil</a></li>
         <li><a (click)="logout()">Kijelentkezés</a></li>
     </ng-container>
     <ng-container *ngIf="isLoggedIn && !isAdmin">
-      <li><a [routerLink]="['/user-management']">Profil</a></li>
+      <li><a [routerLink]="['/profile']">Profil</a></li>
       <li><a [routerLink]="['/cart']">Kosár</a></li>
       <li><a [routerLink]="['/order-hystory']">Előzmények</a></li>
       <li><a (click)="logout()">Kijelentkezés</a></li>

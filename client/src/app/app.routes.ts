@@ -9,6 +9,8 @@ import { EventDetailComponent } from './event-detail/event-detail.component';
 import { AddEventComponent } from './add-event/add-event.component';
 import { CartComponent } from './cart/cart.component';
 import { OrderHystoryComponent } from './order-hystory/order-hystory.component';
+import { OrderListComponent } from './order-list/order-list.component';
+import { ProfileComponent } from './profile/profile.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -16,6 +18,8 @@ export const routes: Routes = [
     { path: 'events/:id', component: EventDetailComponent },
     { path: 'add-event',component:AddEventComponent },
     { path: 'order-hystory',component:OrderHystoryComponent },
+    { path: 'order-list',component:OrderListComponent },
+    { path: 'profile',component:ProfileComponent },
     { path: 'cart', component: CartComponent },
     { path: 'login', component: LoginComponent },
     { path: 'navbar', component: NavbarComponent },

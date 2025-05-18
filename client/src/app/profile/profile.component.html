@@ -1,0 +1,12 @@
+<div *ngIf="userData; else unaut">
+  <p><strong>Profil adatok</strong>
+  <p><strong>Email:</strong> {{ userData.email }}</p>
+  <p><strong>Név:</strong> {{ userData.name || 'nincs megadva' }}</p>
+  <p><strong>Becenév:</strong> {{ userData.nickname || 'nincs megadva' }}</p>
+  <p><strong>Cím:</strong> {{ userData.address || 'nincs megadva' }}</p>
+  <p><strong>Jogosultság:</strong> {{ userData.permission }}</p>
+</div>
+
+<ng-template #unaut>
+  <p>Nem kéne itt lenned</p>
+</ng-template>

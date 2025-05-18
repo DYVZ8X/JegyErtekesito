@@ -1,29 +1,85 @@
 .event-detail-card {
-  max-width: 600px;
+  max-width: 700px;
+  max-height: 700px;
   margin: 2rem auto;
   padding: 2rem;
   background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
   transition: transform 0.2s ease-in-out;
-
-  h2 {
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
-    color: #2c3e50;
-  }
-
-  p {
-    margin: 0.5rem 0;
-    font-size: 1.1rem;
-    color: #555;
-  }
+  font-family: 'Segoe UI', sans-serif;
 }
-.delete_button{
+
+
+.event-detail-card h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #2c3e50;
+  text-align: center;
+}
+
+.event-detail-card p {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.event-detail-card label {
+  display: block;
   margin-top: 1rem;
-  color: white;
-  background: red;
+  font-weight: 600;
+  color: #444;
+}
+
+.event-detail-card select,
+.event-detail-card input[type="text"],
+.event-detail-card input[type="number"],
+.event-detail-card input[type="date"] {
+  width: 100%;
+  margin-top: 0.25rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f8f8f8;
+  transition: border-color 0.2s;
+}
+
+.event-detail-card select:focus,
+.event-detail-card input:focus {
+  border-color: #3498db;
+  outline: none;
+}
+
+.event-detail-card button {
+  margin-top: 1.5rem;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  border-radius: 8px;
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
+  background-color: #D8125B;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.event-detail-card button:hover {
+  background-color: #701537;
+}
+
+.admin-editor {
+  margin-top: 2rem;
+  padding: 1rem;
+  border-top: 2px solid #ddd;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+
+.admin-editor h3 {
+  margin-bottom: 1rem;
+  color: #2c3e50;
+  font-size: 1.4rem;
 }

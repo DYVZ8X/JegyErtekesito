@@ -62,7 +62,7 @@ export class SignupComponent implements OnInit {
         }
       });
     } else {
-      console.log('Form is not valid.');
+      alert('Az űrlapot nem jól töltötted ki');
     }
   }
 

@@ -61,6 +61,10 @@ getEventById(id: string): Observable<Event> {
   return this.http.get<string[]>(`${this.apiUrl}/${eventId}/booked-seats`, { withCredentials: true });
 }
 
+getOrdersForEvent(eventId: string): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrl}/${eventId}/orders`, { withCredentials: true });
+}
+
 deleteEvent(id: string) {
   return this.http.delete(`http://localhost:5000/api/events/${id}`, { withCredentials: true });
 }

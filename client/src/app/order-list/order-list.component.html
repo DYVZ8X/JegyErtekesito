@@ -1,0 +1,32 @@
+<div class="orders-container">
+  <h2>Rendelések eseményenként</h2>
+  <label for="eventSelect">Esemény kiválasztása:</label>
+  <select [(ngModel)]="selectedEventId" (change)="loadOrdersForSelectedEvent()">
+    <option value="">Válassz eseményt</option>
+    <option *ngFor="let event of events" [value]="event._id">{{ event.title }}</option>
+  </select>
+  <hr />
+
+  <div class="empty" *ngIf="!orders.length && selectedEventId">
+    Nincsenek rendelések ehhez az eseményhez.
+  </div>
+
+  <div class="scroll" *ngIf="orders.length > 0">
+    <div class="cart-header">
+      <div class="cell title">Felhasználó</div>
+      <div class="cell">Kategória</div>
+      <div class="cell">Szék</div>
+      <div class="cell">Ár (Ft)</div>
+    </div>
+
+    <div *ngFor="let order of orders" class="cart-item">
+      <div class="cell title">{{ order.user?.email || 'ismeretlen' }}</div>
+      <div class="cell">{{ order.ticketCategory }}</div>
+      <div class="cell">{{ order.seatNumber }}</div>
+      <div class="cell">{{ order.price }}</div>
+    </div>
+  </div>
+      <div *ngIf="orders.length > 0" class="total">
+    <strong>Összesen:</strong> {{ totalOrderPrice }} Ft
+    </div>
+</div>

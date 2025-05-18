@@ -55,25 +55,21 @@ export const configureRoutes = (passport: PassportStatic, router: Router): Route
     });
 
     router.post('/login', (req: Request, res: Response, next: NextFunction) => {
-        passport.authenticate('local', (error: string | null, user: typeof User) => {
-            if (error) {
-                console.log(error);
-                res.status(500).send(error);
-            } else {
-                if (!user) {
-                    res.status(400).send('User not found.');
-                } else {
-                    req.login(user, (err: string | null) => {
-                        if (err) {
-                            console.log(err);
-                            res.status(500).send('Internal server error.');
-                        } else {
-                            res.status(200).send(user);
-                        }
-                    });
-                }
-            }
-        })(req, res, next);
+    passport.authenticate('local', (error:any, user:any, info:any) => {
+        if (error) {
+        return res.status(500).send(error);
+        }
+        if (!user) {
+        return res.status(401).send(info?.message || 'Incorrect username or password');
+        }
+
+        req.login(user, (err) => {
+        if (err) {
+            return res.status(500).send('Internal server error');
+        }
+        return res.status(200).send(user);
+        });
+    })(req, res, next);
     });
 
     router.post('/register', (req: Request, res: Response) => {
@@ -151,6 +147,23 @@ router.get('/checkPermission', (req: Request, res: Response) => {
         res.status(401).send('Not authenticated.');
     }
 });
+
+router.get('/profile', (req: Request, res: Response) => {
+    if (req.isAuthenticated() && req.user) {
+        const user = req.user as any;
+
+        res.status(200).json({
+            email: user.email,
+            name: user.name,
+            address: user.address,
+            nickname: user.nickname,
+            permission: user.permission
+        });
+    } else {
+        res.status(401).send('Not authenticated');
+    }
+});
+
 
     return router;
 }

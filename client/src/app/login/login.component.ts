@@ -18,25 +18,31 @@ export class LoginComponent {
 
   constructor(private router: Router, private authService: AuthService) { }
 
-  login() {
-    console.log("ide")
-    if (this.email && this.password) {
-      this.errorMessage = '';
-      this.authService.login(this.email, this.password).subscribe({
-        next: (data) => {
-          if (data) {
-            this.authService.checkAuth().subscribe();
-            console.log("asd!!!",data);
-            this.router.navigateByUrl('/user-management');
-          }
-        }, error: (err) => {
-          console.log(err);
-        },
-      })
-    } else {
-      this.errorMessage = 'Form is empty.';
-    }
+login() {
+  if (this.email && this.password) {
+    this.errorMessage = '';
+
+    this.authService.login(this.email, this.password).subscribe({
+      next: (data) => {
+        if (data) {
+          this.authService.checkAuth().subscribe();
+          this.router.navigateByUrl('/events');
+        }
+      },
+      error: (err) => {
+        console.log(err);
+        if (err.status === 401) {
+          alert('Hibás jelszó vagy felhasználónév!');
+        } else {
+          alert('Bejelentkezési hiba történt.');
+        }
+      },
+    });
+  } else {
+    alert("Üres mezők!");
   }
+}
+
 
   navigate(to: string) {
     this.router.navigateByUrl(to);

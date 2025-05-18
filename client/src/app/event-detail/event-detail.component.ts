@@ -23,16 +23,22 @@ export class EventDetailComponent {
   event: any;
   editedEvent: any = {};
   availableSeats: string[] = [];
+  vipSeats: string[] = [];
+  premiumSeats: string[] = [];
+  generalSeats: string[] = [];
   selectedSeat = '';
   ticketCategory: 'vip' | 'general' | 'premium' = 'general';
 
+  isLoggedIn = false;
   isAdmin = false;
   editMode = false;
 
 ngOnInit() {
   const id = this.route.snapshot.paramMap.get('id');
   if (!id) return;
-
+  this.authService.isLoggedIn$.subscribe(auth => {
+    this.isLoggedIn = auth;
+  });
   this.authService.checkPermission(permission => {
     this.isAdmin = permission === 'admin';
   });
@@ -47,12 +53,25 @@ ngOnInit() {
 }
 
 
-  loadAvailableSeats(eventId: string, totalSeats: number) {
-    this.eventService.getBookedSeats(eventId).subscribe(bookedSeats => {
-      const allSeats = Array.from({ length: totalSeats }, (_, i) => (i + 1).toString());
-      this.availableSeats = allSeats.filter(seat => !bookedSeats.includes(seat));
-    });
-  }
+loadAvailableSeats(eventId: string, totalSeats: number) {
+  this.eventService.getBookedSeats(eventId).subscribe(bookedSeats => {
+    const allSeats = Array.from({ length: totalSeats }, (_, i) => (i + 1).toString());
+    const available = allSeats.filter(seat => !bookedSeats.includes(seat));
+
+    const vipLimit = Math.floor(totalSeats * 0.1);
+    const premiumLimit = vipLimit * 2;
+
+    this.vipSeats = available.filter(seat => +seat <= vipLimit);
+    this.premiumSeats = available.filter(seat => +seat > vipLimit && +seat <= premiumLimit);
+    this.generalSeats = available.filter(seat => +seat > premiumLimit);
+  });
+}
+get filteredSeats(): string[] {
+  if (this.ticketCategory === 'vip') return this.vipSeats;
+  if (this.ticketCategory === 'premium') return this.premiumSeats;
+  return this.generalSeats;
+}
+
 
   addToCart() {
     if (!this.selectedSeat || !this.event) return;

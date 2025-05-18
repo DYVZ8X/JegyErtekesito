@@ -1,16 +1,11 @@
-.event-list-header {
-  position: static;
-  margin-top: 40px; 
-  margin-left: 40px;
-}
 
 .add-event-button {
   position: fixed;
-  margin-top: 750px;
+  margin-top: 720px;
   margin-left: 0px;
   padding-left: 0px;
   padding: 0.6rem 1.2rem;
-  background-color: #3498db;
+  background-color: #D8125B;
   color: white;
   border: none;
   border-radius: 8px;
@@ -19,23 +14,26 @@
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: #2980b9;
+    background-color: #701537;
   }
 }
 .event-list-container {
+  max-height: 700px;
+  overflow-y: auto;
   vertical-align: bottom;
   display: grid;
   position: static;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   padding: 10px 5%;
-  margin-top: 3600px;
+
   justify-items: center;
 }
 
 .event-card {
+  color: white;
   vertical-align: bottom;
-  background-color: #f9f9f9;
+  background-color: #2C2E39;
   border: 1px solid #ccc;
   width: 90%;
   max-width: 500px;
@@ -59,4 +57,18 @@
     margin: 4px 0;
     color: #555;
   }
+}
+.event-card {
+  background-color: #2C2E39;
+  color: #ffffff;
+  border: 1px solid transparent;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.event-card h2 {
+  color: #ffffff;
+}
+
+.event-card p {
+  color: #f8e1eb;
 }
